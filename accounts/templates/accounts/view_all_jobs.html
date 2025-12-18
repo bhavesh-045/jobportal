@@ -1,0 +1,50 @@
+{% extends 'accounts/base.html' %}
+{% block title %} {{ user_type }} All Jobs {% endblock %}
+
+{% block content %} 
+    <div class="conatiner mt-5">
+        <h2>Welcome to Student Dashboard</h2>     
+    </div>
+<br>
+    <table id="jobsTable" class="table table-bordered table-striped text-center">
+        <thead class="table-primary">
+            <tr>
+                <th>Title</th>
+                <th>Comapny</th>
+                <th>Description</th>
+                <th>Location</th>
+                <th>Job Type</th>
+                <th>Deadline</th>
+                <th>Posted By</th>     
+                <th>Salary</th>
+                <th>Details</th>    
+            </tr>
+        </thead>
+     <tbody>
+    {% for item in job_key %}
+    <tr>
+        <td>{{ item.title}}</td>
+        <td>{{ item.company}}</td>
+        <td>{{ item.description}}</td>
+        <td>{{ item.location}}</td>
+        <td>{{ item.job_type}}</td>
+        <td>{{ item.deadline}}</td>
+        <td>{{ item.posted_by}}</td>
+        <td>{{ item.salary}}</td>
+        <td><a href="{% url 'job_detail' item.id %}">View</a></td>
+    </tr>    
+    {% endfor %}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#jobsTable').DataTable();
+    });
+</script>
+{% endblock %}
+     </tbody>
+    </table>
+

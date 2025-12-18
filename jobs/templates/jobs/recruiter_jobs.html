@@ -1,0 +1,56 @@
+{% extends 'accounts/base.html' %}
+{% block title %}  {{ user_type }}  SignUp.  {% endblock %}
+
+{% block content %}
+
+    <div class="container mt-5">
+        <h2> Welcome to Student Dashboard</h2>
+        
+    <br>
+    <table id="jobsTable" class="table table-bordered table-striped text-center">
+        <thead class="table-dark">
+            <tr>
+                <th>title</th>
+                <th>company</th>
+                <th>location</th>
+                <th>job Type</th>
+                <th>posted by</th>
+                <th>Application</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+    <tbody>
+        {% for item in jobs %}
+        <tr>
+            <td>{{ item.title }}</td>
+            <td>{{ item.company }}</td>
+            <td>{{ item.location}}</td>
+            <td>{{ item.job_type}}</td>
+            <td>{{ item.posted_by}}</td>
+            <td><a href="{% url 'view_applicants' item.id %}"> {{ item.jobapplication_set.count }}</a></td>
+            <td>
+                <a href="{% url 'edit_job' item.id %}" class="btn btn-sm btn-warning">Edit</a>
+
+                <form action="{% url 'delete_job' item.id %}" method="POST" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are You sure You want to Delete')">Delete</button>
+                </form>
+            </td>
+        </tr>
+
+
+    {% endfor %}
+    </tbody>
+    </table>
+    </div>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+<script>
+        $(document).ready(function () {
+        $('#jobsTable').DataTable();
+    });
+
+</script>
+{% endblock %}

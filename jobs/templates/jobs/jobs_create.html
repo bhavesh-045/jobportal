@@ -1,0 +1,91 @@
+{% extends 'accounts/base.html' %}
+{% load widget_tweaks %}
+{% block title %}Post a New Job{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow-lg border-0">
+        <div class="card-header bg-dark text-white text-center py-3">
+          <h3 class="mb-0">Post a New Job</h3>
+        </div>
+        <div class="card-body p-4">
+          <form method="POST" novalidate>
+            {% csrf_token %}
+
+            <div class="form-floating mb-3">
+              {{ form_data.title|add_class:"form-control" }}
+              <label for="{{ form_data.title.id_for_label }}">Job Title</label>
+            </div>
+
+            <div class="form-floating mb-3">
+              {{ form_data.description|add_class:"form-control" }}
+              <label for="{{ form_data.description.id_for_label }}">Description</label>
+            </div>
+
+            <div class="form-floating mb-3">
+              {{ form_data.company|add_class:"form-control" }}
+              <label for="{{ form_data.company.id_for_label }}">Company</label>
+            </div>
+
+            <div class="form-floating mb-3">
+              {{ form_data.location|add_class:"form-control" }}
+              <label for="{{ form_data.location.id_for_label }}">Location</label>
+            </div>
+
+            <div class="form-floating mb-3">
+              {{ form_data.job_type|add_class:"form-select" }}
+              <label for="{{ form_data.job_type.id_for_label }}">Job Type</label>
+            </div>
+
+            <div class="form-floating mb-3">
+              {{ form_data.deadline|add_class:"form-control" }}
+              <label for="{{ form_data.deadline.id_for_label }}">Deadline</label>
+            </div>
+
+            <div class="form-floating mb-4">
+              {{ form_data.salary|add_class:"form-control" }}
+              <label for="{{ form_data.salary.id_for_label }}">Salary (₹)</label>
+            </div>
+
+            <button type="submit" class="btn btn-success w-100 py-2 fw-bold">
+              Post Job
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+ <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded',function(){
+    const deadlineInput = document.querySelector('input[name="deadline"]');
+    const form = document.querySelector('form');
+
+    if (deadlineInput){
+      const today = new Date().toISOString().split('T')[0];
+      deadlineInput.setAttribute('min',today);
+    }
+    if (form && deadlineInput){
+      form.addEventListener('submit',function(e){
+        const selectDate = new Date(deadlineInput.value);
+        const today = new Date();
+        today.setHours(0,0,0,0);
+
+        if(selectDate < today){
+          e.preventDefault();
+          swal.fire({
+            icon: 'error',
+            title:'Invalid Deadline',
+            text: 'Deadline cannot be in past!'
+          });
+        }
+      });
+    }
+  });
+</script> 
+{% endblock %}
