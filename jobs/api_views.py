@@ -14,7 +14,7 @@ def job_list_view(request):
     return Response(serializer.data)
 
 @api_view(['GET'])
-def job_detail(request,id):
+def job_detail1(request,id):
     job = get_object_or_404(Job,id=id)
     serializer = JobSerializer(job)
     return Response(serializer.data)
